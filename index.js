@@ -7,6 +7,10 @@ class PizzaShop extends EventEmitter {
   }
 
   createOrder(type) {
+    if (type === "canadian") {
+      this.emit("error", new Error("Sorry, we're all out of mushrooms!"));
+      return;
+    }
     console.log(`making you a ${type} pizza`);
     setTimeout(() => {
       this.emit("order-ready");
@@ -20,6 +24,10 @@ class PizzaShop extends EventEmitter {
 
     this.on("order", (type) => {
       this.createOrder(type);
+    });
+
+    this.on("error", (error) => {
+      console.log(error.message);
     });
   }
 }
